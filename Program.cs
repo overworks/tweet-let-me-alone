@@ -14,9 +14,9 @@ namespace Mh.Twitter.Resetter
         {
             try
             {
-                Options options = Options.ParseArgs(args);
+                Args options = Args.ParseArgs(args);
 
-                if (options.opt == Options.Opt.None)
+                if (options.command == Args.Command.None)
                     throw new InvalidArgumentException();
                 
                 Console.Write("Are you sure? (y/n) ");
@@ -26,10 +26,10 @@ namespace Mh.Twitter.Resetter
                     Tokens tokens = Credential.GetTokens(CONSUMER_KEY, CONSUMER_SECRET, TOKEN_FILE_NAME);
                     Resetter resetter = new Resetter(tokens);
 
-                    if (options.opt == Options.Opt.Kick || options.opt == Options.Opt.All)
+                    if (options.command == Args.Command.Kick || options.command == Args.Command.All)
                         resetter.KickAllFollowers(options.silence);
 
-                    if (options.opt == Options.Opt.Erase || options.opt == Options.Opt.All)
+                    if (options.command == Args.Command.Erase || options.command == Args.Command.All)
                         resetter.EraseAllTweets(options.silence);
                 }
             }
@@ -48,13 +48,14 @@ namespace Mh.Twitter.Resetter
 
         static void DisplayUsage()
         {
-            Console.WriteLine("usage: let-me-alone.exe [options]");
+            Console.WriteLine("usage: let-me-alone.exe <command> [option]");
             Console.WriteLine();
-            Console.WriteLine("option:");
-            Console.WriteLine("\t-e, --erase        : Erase all tweets and retweets.");
-            Console.WriteLine("\t-k, --kick         : Kick all followers(block then unblock)");
-            Console.WriteLine("\t-a, --all          : Erase all tweets and retweets, and kick all followers(-k, -e)");
-            Console.WriteLine("\t-s, --silence      : Don't describe any message.");
+            Console.WriteLine("command");
+            Console.WriteLine("\tkick          : Kick all followers. (block then unblock)");
+            Console.WriteLine("\terase         : Erase all tweets and retweets.");
+            Console.WriteLine("\tall           : Erase all tweets and retweets, and kick all followers. (kick + all)");
+            Console.WriteLine("option");
+            Console.WriteLine("\t-s, --silence : Don't describe any message.");
         }
     }
 }
