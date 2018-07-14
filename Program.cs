@@ -14,6 +14,8 @@ namespace Mh.Twitter.Resetter
         {
             try
             {
+                Console.WriteLine("Let me alone - Resetter of Twitter");
+
                 Args options = Args.ParseArgs(args);
 
                 if (options.command == Args.Command.None)
@@ -48,7 +50,7 @@ namespace Mh.Twitter.Resetter
 
         static void DisplayUsage()
         {
-            Console.WriteLine("usage: let-me-alone.exe <command> [option]");
+            Console.WriteLine("usage: let-me-alone.exe [command] [option]");
             Console.WriteLine();
             Console.WriteLine("command");
             Console.WriteLine("\tkick          : Kick all followers. (block then unblock)");

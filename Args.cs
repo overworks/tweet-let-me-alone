@@ -40,35 +40,63 @@ namespace Mh.Twitter.Resetter
 
         public static Args ParseArgs(string[] args)
         {
+            Args options = new Args();
+
             if (args.Length == 0)
             {
-                throw new InvalidArgumentException("Not exist argument.");
+                Command command = ReceiveCommand();
+                if (command == Command.None)
+                    throw new InvalidArgumentException("Not exist argument.");
+
+                options.command = command;
             }
-
-            Args options = new Args();
-            foreach (string arg in args)
+            else
             {
-                switch (arg)
+                foreach (string arg in args)
                 {
-                    case "erase":
-                        options.command = Command.Erase;
-                        break;
+                    switch (arg)
+                    {
+                        case "erase":
+                            options.command = Command.Erase;
+                            break;
 
-                    case "kick":
-                        options.command = Command.Kick;
-                        break;
+                        case "kick":
+                            options.command = Command.Kick;
+                            break;
 
-                    case "all":
-                        options.command = Command.All;
-                        break;
+                        case "all":
+                            options.command = Command.All;
+                            break;
 
-                    case "-s":
-                    case "--silence":
-                        options.silence = true;
-                        break;
+                        case "-s":
+                        case "--silence":
+                            options.silence = true;
+                            break;
+                    }
                 }
             }
             return options;
         }
+
+        private static Command ReceiveCommand()
+        {
+            Console.Write("Input command (kick/erase/all) - ");
+
+            string command = Console.ReadLine();
+            switch (command)
+            {
+                case "erase":
+                    return Command.Erase;
+
+                case "kick":
+                    return Command.Kick;
+
+                case "all":
+                    return Command.All;
+            }
+
+            return Command.None;
+        }
+
     }
 }
