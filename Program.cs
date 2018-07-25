@@ -20,13 +20,27 @@ namespace Mh.Twitter.Resetter
 
                 if (options.command == Args.Command.None)
                     throw new InvalidArgumentException();
+
+                string consumerKey = CONSUMER_KEY;
+                string consumerSecret = CONSUMER_SECRET;
+
+                // 커스텀 컨슈머 정보를 사용하는 경우.
+                if (options.consumer)
+                {
+                    Console.Write("Consumer Key: ");
+                    consumerKey = Console.ReadLine();
+                    Console.Write("Consumer Secret: ");
+                    consumerSecret = Console.ReadLine();
+                }
                 
+                Tokens tokens = Credential.GetTokens(consumerKey, consumerSecret, TOKEN_FILE_NAME);
+                Resetter resetter = new Resetter(tokens);
+
                 Console.Write("Are you sure? (y/n) ");
                 string c = Console.ReadLine();
                 if (c == "y" || c == "Y")
                 {
-                    Tokens tokens = Credential.GetTokens(CONSUMER_KEY, CONSUMER_SECRET, TOKEN_FILE_NAME);
-                    Resetter resetter = new Resetter(tokens);
+                    
 
                     if (options.command == Args.Command.Kick || options.command == Args.Command.All)
                         resetter.KickAllFollowers(options.silence);

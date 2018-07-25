@@ -21,6 +21,12 @@ namespace Mh.Twitter.Resetter
             private set;
         }
 
+        public bool consumer
+        {
+            get;
+            private set;
+        }
+
         public Command command
         {
             get
@@ -71,6 +77,11 @@ namespace Mh.Twitter.Resetter
                         case "-s":
                         case "--silence":
                             options.silence = true;
+                            break;
+
+                        case "-c":
+                        case "--consumer":
+                            options.consumer = true;
                             break;
                     }
                 }
