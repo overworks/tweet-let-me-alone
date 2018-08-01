@@ -16,10 +16,7 @@ namespace Mh.Twitter.Resetter
         {
             try
             {
-				Assembly assembly = Assembly.GetExecutingAssembly();
-				FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-				
-                Console.WriteLine("Let me alone - Tweet account resetter v{0}.{1}.{2}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart);
+				Console.WriteLine("Let me alone - Tweet account resetter v" + GetVersionString());
 
                 Args options = Args.ParseArgs(args);
 
@@ -64,6 +61,13 @@ namespace Mh.Twitter.Resetter
                     Console.WriteLine("{0}: {1}", error.Code, error.Message);
                 }
             }
+        }
+
+        static string GetVersionString()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return string.Format("{0}.{1}.{2}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart);
         }
 
         static void DisplayUsage()
