@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using CoreTweet;
 
 namespace Mh.Twitter.Resetter
@@ -14,7 +16,10 @@ namespace Mh.Twitter.Resetter
         {
             try
             {
-                Console.WriteLine("Let me alone - Resetter of Twitter");
+				Assembly assembly = Assembly.GetExecutingAssembly();
+				FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+				
+                Console.WriteLine("Let me alone - Tweet account resetter v{0}.{1}.{2}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart);
 
                 Args options = Args.ParseArgs(args);
 
@@ -40,12 +45,10 @@ namespace Mh.Twitter.Resetter
                 string c = Console.ReadLine();
                 if (c == "y" || c == "Y")
                 {
-                    
-
-                    if (options.command == Args.Command.Kick || options.command == Args.Command.All)
-                        resetter.KickAllFollowers(options.silence);
-
-                    if (options.command == Args.Command.Erase || options.command == Args.Command.All)
+					if (options.command == Args.Command.Kick || options.command == Args.Command.All)
+						resetter.KickAllFollowers(options.silence);
+					
+					if (options.command == Args.Command.Erase || options.command == Args.Command.All)
                         resetter.EraseAllTweets(options.silence);
                 }
             }
@@ -55,9 +58,10 @@ namespace Mh.Twitter.Resetter
             }
             catch (TwitterException e)
             {
+				Console.WriteLine("TwitterException occured.");
                 foreach (var error in e.Errors)
                 {
-                    Console.WriteLine("{0} - {1}", error.Code, error.Message);
+                    Console.WriteLine("{0}: {1}", error.Code, error.Message);
                 }
             }
         }
@@ -67,11 +71,12 @@ namespace Mh.Twitter.Resetter
             Console.WriteLine("usage: let-me-alone.exe [command] [option]");
             Console.WriteLine();
             Console.WriteLine("command");
-            Console.WriteLine("\tkick          : Kick all followers. (block then unblock)");
-            Console.WriteLine("\terase         : Erase all tweets and retweets.");
-            Console.WriteLine("\tall           : Erase all tweets and retweets, and kick all followers. (kick + all)");
+            Console.WriteLine("\tkick           : Kick all followers. (block then unblock)");
+            Console.WriteLine("\terase          : Erase all tweets and retweets.");
+            Console.WriteLine("\tall            : Erase all tweets and retweets, and kick all followers. (kick + all)");
             Console.WriteLine("option");
-            Console.WriteLine("\t-s, --silence : Don't describe any message.");
+            Console.WriteLine("\t-s, --silence  : Don't describe any message.");
+            Console.WriteLine("\t-c, --consumer : Use custom consumer.");
         }
     }
 }

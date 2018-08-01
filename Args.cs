@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Mh.Twitter.Resetter
 {
@@ -91,7 +88,7 @@ namespace Mh.Twitter.Resetter
 
         private static Command ReceiveCommand()
         {
-            Console.Write("Input command (kick/erase/all) - ");
+            Console.Write("Input command (kick/erase/all) ");
 
             string command = Console.ReadLine();
             switch (command)

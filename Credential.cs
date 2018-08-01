@@ -30,8 +30,13 @@ namespace Mh.Twitter
                     if (at.CONSUMER_KEY == consumerKey && at.CONSUMER_SECRET == consumerSecret)
                     {
                         tokens = Tokens.Create(consumerKey, consumerSecret, at.ACCESS_TOKEN, at.ACCESS_TOKEN_SECRET);
-                        if (tokens.Account.VerifyCredentials() != null)
-                            isTokensFileValid = true;
+						UserResponse user = tokens.Account.VerifyCredentials();
+						if (user != null)
+						{
+							tokens.UserId = user.Id.Value;
+							tokens.ScreenName = user.ScreenName;
+							isTokensFileValid = true;
+						}
                     }
                 }
             }
