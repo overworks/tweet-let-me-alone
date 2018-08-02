@@ -16,7 +16,7 @@ namespace Mh.Twitter.Resetter
         {
             try
             {
-				Console.WriteLine("Let me alone - Tweet account resetter v" + GetVersionString());
+                Console.WriteLine("Let me alone - Tweet account resetter v" + GetVersionString());
 
                 Args options = Args.ParseArgs(args);
 
@@ -42,11 +42,11 @@ namespace Mh.Twitter.Resetter
                 string c = Console.ReadLine();
                 if (c == "y" || c == "Y")
                 {
-					if (options.command == Args.Command.Kick || options.command == Args.Command.All)
-						resetter.KickAllFollowers(options.silence);
+                    if (options.command == Args.Command.Kick || options.command == Args.Command.All)
+                        resetter.KickAllFollowers(options.silence);
 					
-					if (options.command == Args.Command.Erase || options.command == Args.Command.All)
-                        resetter.EraseAllTweets(options.silence);
+                    if (options.command == Args.Command.Erase || options.command == Args.Command.All)
+                       resetter.EraseAllTweets(options.silence);
                 }
             }
             catch (InvalidArgumentException)
@@ -55,7 +55,7 @@ namespace Mh.Twitter.Resetter
             }
             catch (TwitterException e)
             {
-				Console.WriteLine("TwitterException occured.");
+                Console.WriteLine("TwitterException occured.");
                 foreach (var error in e.Errors)
                 {
                     Console.WriteLine("{0}: {1}", error.Code, error.Message);
